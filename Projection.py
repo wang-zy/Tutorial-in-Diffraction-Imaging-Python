@@ -186,4 +186,25 @@ def moltrans(mol, H, K, L):
 
     return np.reshape(F, sizeH)
 
-test
+
+def rotmatx(theta):
+    R = np.array([[1, 0, 0],
+                  [0, np.cos(theta), np.sin(theta)],
+                  [0, -np.sin(theta), np.cos(theta)]])
+    return R
+
+
+def rotmaty(theta):
+    R = np.array([[np.cos(theta), 0, -np.sin(theta)],
+                  [0, 1, 0],
+                  [np.sin(theta), 0, np.cos(theta)]])
+    return R
+
+
+def rotmatz(theta):
+    R = np.array([[np.cos(theta), np.sin(theta), 0],
+                  [-np.sin(theta), np.cos(theta), 0],
+                  [0, 0, 1]])
+    return R
+
+
