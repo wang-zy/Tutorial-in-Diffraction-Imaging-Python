@@ -208,3 +208,26 @@ def rotmatz(theta):
     return R
 
 
+def squarewin2(innersz, outersz):
+    """
+    Creat a 2-D grid W with the siez of outersz and the values of W are all 0
+    except in its center range with the size of innersz, where the values are 1.
+
+    Input:
+    innersz: size of the inner range with value 1. -> tuple, list, or array
+    outersz: size of the outer range with value 0. -> tuple, list, or array
+    Output: W
+    """
+    innersz = np.asarray(innersz)
+    outersz = np.asarray(outersz)
+    ic = np.ceil((innersz+1)/2.).astype(int)
+    oc = np.ceil((outersz+1) / 2.).astype(int)
+
+    W = np.zeros(outersz)
+    x1 = oc[0] - ic[0]
+    x2 = x1 + innersz[0]
+    y1 = oc[1] - ic[1]
+    y2 = y1 + innersz[1]
+    W[x1:x2, y1:y2] = np.ones(innersz)
+    return W
+
