@@ -101,7 +101,7 @@ def spheresec(num=20, rad=1., theta=[0, np.pi], phi=[0, 2 * np.pi]):
 
     z = r * np.expand_dims(np.cos(theta), axis=1) * np.expand_dims(np.ones(n + 1), axis=0)
 
-    return np.array([x, y, z])
+    return x, y, z
 
 
 def sph2rotmat(zenith, azimuth, inplane):
@@ -146,7 +146,7 @@ def ewaldsurf(lam=1., res=None, N=50, theta=0, phi=0, psi=0, plot=False):
     thetaMax = np.arcsin(lam / (2. * res))
     pol = [0, 2 * thetaMax]
     az = [0, 2 * np.pi]
-    [X, Y, Z] = spheresec(N, 1. / lam, pol, az)  # X ,Y ,Z are square matrix
+    X, Y, Z = spheresec(N, 1. / lam, pol, az)  # X ,Y ,Z are square matrix
 
     H = np.reshape(X, X.shape[0] * X.shape[1])
     K = np.reshape(Y, Y.shape[0] * Y.shape[1])
@@ -178,7 +178,7 @@ def ewaldsurf(lam=1., res=None, N=50, theta=0, phi=0, psi=0, plot=False):
 
         plt.show()
     else:
-        return np.array([rotH, rotK, rotL])
+        return rotH, rotK, rotL
 
 
 def ewaldmult(lam=1., res=None, N=50, phi=0, theta=0, psi=0):
@@ -199,7 +199,7 @@ def ewaldmult(lam=1., res=None, N=50, phi=0, theta=0, psi=0):
     ax = plt.figure().gca(projection='3d')
 
     for i in range(theta.shape[0]):
-        [X, Y, Z] = ewaldsurf(lam, res, N, phi[i], theta[i], psi[i])
+        X, Y, Z = ewaldsurf(lam, res, N, phi[i], theta[i], psi[i])
         C = np.sqrt(X ** 2 + Y ** 2 + Z ** 2)
         C -= np.amax(C)
         C = np.abs(C)
