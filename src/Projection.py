@@ -1,6 +1,9 @@
 import numpy as np
 from numpy.matlib import repmat
 from numpy import fft
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from scipy.linalg import expm
 import os
 
 
@@ -65,6 +68,67 @@ class Molecule(object):
                 self.charge.append(val[78:80].strip())
         self.crd = [self.x, self.y, self.z]
         self.IDP = [1] * len(self.element)
+
+
+def sphere(n):
+    u = np.linspace(-np.pi, np.pi, n+1)
+    v = np.linspace(0, np.pi, n+1)
+
+    x =  np.outer(np.cos(u), np.sin(v))
+    y =  np.outer(np.sin(u), np.sin(v))
+    z =  np.outer(np.ones(np.size(u)), np.cos(v))
+    
+    return x,y,z
+
+
+def drawmol(mol, elevation, azimuth):
+    """
+    Colors:
+    White: hydrogen
+    Black: carbon
+    Red: oxygen
+    Blue: nitrogen
+    Yellow: sulphur
+    Grey: other
+    """
+    if len(mol.element) > 50:
+        rad = 10
+    else:
+        rad = 20
+    
+    X,Y,Z = sphere(rad)
+    ax = plt.figure().gca(projection='3d')
+    
+    for i in range(len(mol.element)):  
+        if (mol.element[i] == 'H'):
+            col = 'w'; r = 0.5    #White 
+        elif (mol.element[i] == 'C'):
+            col = 'k'; r = 0.85   #Black    
+        elif (mol.element[i] == 'O'):
+            col = 'r'; r = 0.95   #Red
+        elif (mol.element[i] == 'N'):
+            col = 'b'; r = 0.9    #Blue
+        elif (mol.element[i] == 'S'):
+            col = 'y'; r = 1.0    #Yellow
+        else:
+            col = 'g'; r = 0.9    #others
+        
+        ax.plot_surface(mol.x[i]+r*X, mol.y[i] + r*Y, mol.z[i] + r*Z, rstride=1, cstride=1, linewidth=0, color=col)
+    
+    # Create cubic bounding box to simulate equal aspect ratio
+    x_max = max(mol.x) + 1; x_min = min(mol.x) - 1
+    y_max = max(mol.y) + 1; y_min = min(mol.y) - 1
+    z_max = max(mol.z) + 1; z_min = min(mol.z) - 1
+    max_range = np.array([x_max - x_min, y_max - y_min, z_max - z_min]).max() / 2.0
+    mid_x = (x_max + x_min) * 0.5
+    mid_y = (y_max + y_min) * 0.5
+    mid_z = (z_max + z_min) * 0.5
+    ax.set_xlim(mid_x - max_range, mid_x + max_range)
+    ax.set_ylim(mid_y - max_range, mid_y + max_range)
+    ax.set_zlim(mid_z - max_range, mid_z + max_range)
+    #plt.axis('off')
+    ax.view_init(elevation, azimuth)
+    plt.show()
 
 
 class ScatterFactor(object):
@@ -224,6 +288,23 @@ def rotmatz(theta):
     R = np.array([[np.cos(theta), np.sin(theta), 0],
                   [-np.sin(theta), np.cos(theta), 0],
                   [0, 0, 1]])
+    return R
+
+
+def rotationmatrix(phi, n): 
+    """
+    n is vector.
+    Return R is a 3D rotation matrix
+    """
+    if not isinstance(n, (list, tuple, np.ndarray)):
+        raise ValueError('n must be a vector!')
+    n = np.asarray(n, dtype=float)
+    n = n / np.sqrt(np.sum(n**2))
+    # Calculate the assymetric matrix (for cross products).
+    N = np.array([[0, -n[2], n[1]], [n[2], 0 , -n[0]], [-n[1], n[0], 0]])
+    # Calculate rotation matrix
+    R = expm(N * phi)
+    
     return R
 
 
