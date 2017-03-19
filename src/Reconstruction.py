@@ -1,6 +1,5 @@
 from Diffraction import *
 from mayavi import mlab
-from numpy import fft
 
 
 def xyzgrid(cutoff, step):
@@ -32,7 +31,7 @@ def grid_nearest(grid,value):
     return np.abs(tmp-value).argmin()
 
 
-def slice(H, K, L, F, x, y, z):
+def slices(H, K, L, F, x, y, z):
     """
     Input:
     H,K,L: 3D meshgrid
@@ -47,10 +46,10 @@ def slice(H, K, L, F, x, y, z):
         y = [y]
     if not isinstance(z, (list, tuple, np.ndarray)):
         z = [z]
-    
+
     # create a scalar field object using F
     s = mlab.pipeline.scalar_field(F)
-    
+
     mlab.figure()
     # calculate the slice_index of (x,y,z) for plot, based on the values of H, K, L
     for i in x:
@@ -75,7 +74,7 @@ def isosurface(F, values):
         iso_values = [values]
     else:
         iso_values = [i for i in values]
-    
+
     mlab.figure()
     return mlab.contour3d(F, contours=iso_values, transparent=True)
 

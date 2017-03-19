@@ -96,22 +96,22 @@ def drawmol(mol, elevation, azimuth):
     else:
         rad = 20
     
-    X,Y,Z = sphere(rad)
+    X, Y, Z = sphere(rad)
     ax = plt.figure().gca(projection='3d')
     
     for i in range(len(mol.element)):  
-        if (mol.element[i] == 'H'):
-            col = 'w'; r = 0.5    #White 
-        elif (mol.element[i] == 'C'):
-            col = 'k'; r = 0.85   #Black    
-        elif (mol.element[i] == 'O'):
-            col = 'r'; r = 0.95   #Red
-        elif (mol.element[i] == 'N'):
-            col = 'b'; r = 0.9    #Blue
-        elif (mol.element[i] == 'S'):
-            col = 'y'; r = 1.0    #Yellow
+        if mol.element[i] == 'H':
+            col = 'w'; r = 0.5    # White
+        elif mol.element[i] == 'C':
+            col = 'k'; r = 0.85   # Black
+        elif mol.element[i] == 'O':
+            col = 'r'; r = 0.95   # Red
+        elif mol.element[i] == 'N':
+            col = 'b'; r = 0.9    # Blue
+        elif mol.element[i] == 'S':
+            col = 'y'; r = 1.0    # Yellow
         else:
-            col = 'g'; r = 0.9    #others
+            col = 'g'; r = 0.9    # others
         
         ax.plot_surface(mol.x[i]+r*X, mol.y[i] + r*Y, mol.z[i] + r*Z, rstride=1, cstride=1, linewidth=0, color=col)
     
@@ -126,7 +126,7 @@ def drawmol(mol, elevation, azimuth):
     ax.set_xlim(mid_x - max_range, mid_x + max_range)
     ax.set_ylim(mid_y - max_range, mid_y + max_range)
     ax.set_zlim(mid_z - max_range, mid_z + max_range)
-    #plt.axis('off')
+    # plt.axis('off')
     ax.view_init(elevation, azimuth)
     plt.show()
 
