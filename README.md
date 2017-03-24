@@ -18,6 +18,8 @@ Chapter 5. Sampling, periodicity and crystals [[ IPython nbviewer ](http://nbvie
 
 Chapter 6. Phase retrieval [[ IPython nbviewer ](http://nbviewer.jupyter.org/github/wang-zy/Tutorial-in-Diffraction-Imaging-Python/blob/master/notebook/Chapter%206.%20Phase%20retrieval.ipynb)]
 
+Appendix. Q&A [[ IPython nbviewer ](http://nbviewer.jupyter.org/github/wang-zy/Tutorial-in-Diffraction-Imaging-Python/blob/master/notebook/Q%26A.ipynb)]
+
 ## About Mayavi
 
 Mayavi is a scientific data visualizer written in Python, which uses VTK and provides a GUI via Tkinter. In this tutorial, Mayavi is used for 3D data visualization, especially its mlab module.
